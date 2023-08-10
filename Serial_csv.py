@@ -16,6 +16,10 @@ csv_file_path = generate_csv_file_path()
 csv_file = open(csv_file_path, 'w', newline='')
 csv_writer = csv.writer(csv_file)
 
+# 제목 행 저장
+csv_writer.writerow(["x", "y", "range", "angle", "vel_l", "vel_a", "rpm_l", "rpm_r"])
+csv_file.flush()
+
 save_data = True
 
 try:
@@ -35,11 +39,19 @@ try:
                     csv_file_path = generate_csv_file_path()
                     csv_file = open(csv_file_path, 'w', newline='')
                     csv_writer = csv.writer(csv_file)
+                    # 제목 행 저장
+                    csv_writer.writerow(["x", "y", "range", "angle", "vel_l", "vel_a", "rpm_l", "rpm_r"])
+                    csv_file.flush()
                     print("CSV 파일 새로 생성됨.")
                     save_data = True
             else:
                 if save_data:
-                    csv_writer.writerow([data])
+                    # 데이터 분리 및 저장
+                    data_list = data.split(' ')  # 데이터를 띄어쓰기로 분리
+                    x, y, range_val, angle, vel_l, vel_a, rpm_l, rpm_r = data_list
+                    
+                    # 데이터 순서대로 저장
+                    csv_writer.writerow([x, y, range_val, angle, vel_l, vel_a, rpm_l, rpm_r])
                     csv_file.flush()
                     print(data)
         
